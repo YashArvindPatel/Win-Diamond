@@ -18,7 +18,7 @@ public class TouchManager : MonoBehaviour
     private Vector3 worldPos, offset;
 
     private readonly string SEAT_TAG = "Seat", ADD_TAG = "Add",
-        GIFT_TAG = "Gift", PUZZLE_TAG = "Puzzle", REMOVE_TAG = "Remove";
+        GIFT_TAG = "Gift", REMOVE_TAG = "Remove";
 
     // Recycle Huggy Swap Info
     [SerializeField] private GameObject recycleGO;
@@ -98,8 +98,8 @@ public class TouchManager : MonoBehaviour
                         pickedHuggy?.Invoke(seat.GetLevel());
 
                         seat.TurnOffHighlight();
-                    }                               
-                }                      
+                    }
+                }
             }
         }
 
@@ -116,11 +116,6 @@ public class TouchManager : MonoBehaviour
                         if (item.CompareTag(GIFT_TAG))
                         {
                             seatManager.OpenGift(item.gameObject);
-                        }
-                        else if (item.CompareTag(PUZZLE_TAG))
-                        {
-                            seatManager.RemovePuzzlePieceFromSeat(item.gameObject);
-                            GameManager.instance.RewardManager.OpenPuzzlePiecePanel();
                         }
                         else if (item.CompareTag(ADD_TAG))
                         {
@@ -243,7 +238,7 @@ public class TouchManager : MonoBehaviour
 
                 // Raise Dropped Huggy Event
                 droppedHuggy?.Invoke();
-            }         
+            }
         }
     }
 

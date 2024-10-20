@@ -156,7 +156,7 @@ TextureImporter:
       213: 7115848201294353542
     second: Atlas_01_MainMenu_Settings_Hud_50
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -173,10 +173,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -215,6 +217,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -226,6 +230,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -238,6 +243,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -250,6 +256,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -262,6 +269,46 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1348,9 +1395,60 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      Atlas_01_MainMenu_Settings_Hud_0: 8688973232991277739
+      Atlas_01_MainMenu_Settings_Hud_1: -3656987232033735733
+      Atlas_01_MainMenu_Settings_Hud_10: 464459420721204331
+      Atlas_01_MainMenu_Settings_Hud_11: -5084431696188286435
+      Atlas_01_MainMenu_Settings_Hud_12: 5496772826568476771
+      Atlas_01_MainMenu_Settings_Hud_13: -5550107376452807359
+      Atlas_01_MainMenu_Settings_Hud_14: 2454582372967930677
+      Atlas_01_MainMenu_Settings_Hud_15: 879374786937017250
+      Atlas_01_MainMenu_Settings_Hud_16: -3473195298169796951
+      Atlas_01_MainMenu_Settings_Hud_17: 4497361634287167697
+      Atlas_01_MainMenu_Settings_Hud_18: 6952565128659825275
+      Atlas_01_MainMenu_Settings_Hud_19: 9020911172880012245
+      Atlas_01_MainMenu_Settings_Hud_2: -5231664827400157271
+      Atlas_01_MainMenu_Settings_Hud_20: 4764174846791982740
+      Atlas_01_MainMenu_Settings_Hud_21: -7110247949694541051
+      Atlas_01_MainMenu_Settings_Hud_22: 66784196484828325
+      Atlas_01_MainMenu_Settings_Hud_23: -7777234183341541081
+      Atlas_01_MainMenu_Settings_Hud_24: -5010452087806646556
+      Atlas_01_MainMenu_Settings_Hud_25: 279435008529966111
+      Atlas_01_MainMenu_Settings_Hud_26: 6862944426497360174
+      Atlas_01_MainMenu_Settings_Hud_27: 22712498931689290
+      Atlas_01_MainMenu_Settings_Hud_28: 5039918155087184484
+      Atlas_01_MainMenu_Settings_Hud_29: 7227899345911068947
+      Atlas_01_MainMenu_Settings_Hud_3: 6765377024264654951
+      Atlas_01_MainMenu_Settings_Hud_30: 6116329424760124397
+      Atlas_01_MainMenu_Settings_Hud_31: -8449460507006700231
+      Atlas_01_MainMenu_Settings_Hud_32: -584514591987604338
+      Atlas_01_MainMenu_Settings_Hud_33: 8163247053985591426
+      Atlas_01_MainMenu_Settings_Hud_34: -1995651790227354706
+      Atlas_01_MainMenu_Settings_Hud_35: -8680915330662070643
+      Atlas_01_MainMenu_Settings_Hud_36: -310857142358415704
+      Atlas_01_MainMenu_Settings_Hud_37: -9038807800891620403
+      Atlas_01_MainMenu_Settings_Hud_38: -8857901975413881056
+      Atlas_01_MainMenu_Settings_Hud_39: 2349251696923786405
+      Atlas_01_MainMenu_Settings_Hud_4: 6083504875114771786
+      Atlas_01_MainMenu_Settings_Hud_40: 3555297761752705767
+      Atlas_01_MainMenu_Settings_Hud_41: -9186976060087643868
+      Atlas_01_MainMenu_Settings_Hud_42: 1139741980116941609
+      Atlas_01_MainMenu_Settings_Hud_43: 1248144939356579691
+      Atlas_01_MainMenu_Settings_Hud_44: 7252768353283513548
+      Atlas_01_MainMenu_Settings_Hud_45: -2025067961360158581
+      Atlas_01_MainMenu_Settings_Hud_46: 2407632146811181917
+      Atlas_01_MainMenu_Settings_Hud_47: -264617577183707721
+      Atlas_01_MainMenu_Settings_Hud_48: 7537614641351475873
+      Atlas_01_MainMenu_Settings_Hud_49: 8512915009709361810
+      Atlas_01_MainMenu_Settings_Hud_5: -2903432579314416275
+      Atlas_01_MainMenu_Settings_Hud_50: 7115848201294353542
+      Atlas_01_MainMenu_Settings_Hud_6: -5699456923618332482
+      Atlas_01_MainMenu_Settings_Hud_7: 2681740564100211267
+      Atlas_01_MainMenu_Settings_Hud_8: -2232678893368408342
+      Atlas_01_MainMenu_Settings_Hud_9: 4810488733883128454
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

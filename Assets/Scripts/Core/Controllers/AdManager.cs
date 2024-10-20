@@ -1,74 +1,94 @@
-using UnityEngine;
-using UnityEngine.Advertisements;
 using System;
-using System.Collections;
+using UnityEngine;
 
-public class AdManager : MonoBehaviour, IUnityAdsListener
+public class AdManager : MonoBehaviour
 {
     public static AdManager instance;
+
+    private readonly string _appKey = "1f77bcc8d";
+
+    public Action WatchedVideo;
+
+    // Interstitial Ad Logic
+    [Header("Interstitial Ad Logic")]
+    [SerializeField] private int lowerHuggyMergeCount = 6, upperHuggyMergeCount = 8;
+
+    private int adCountOnHuggyMerge;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+
+            InitializeAds();
         }
     }
 
-    [SerializeField] private bool testMode = true, showAds = true;
-    [SerializeField] private string gameId = "4616979";
-    private string rewarded_placement = "Rewarded_Android";
-    private string interstitial_placement = "Interstitial_Android";
+    private void OnEnable()
+    {
+        // Init Event
+        IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
 
-    public Action WatchedVideo;
+        // Rewarded Ad
+        IronSourceRewardedVideoEvents.onAdLoadFailedEvent += RewardedOnAdLoadFailed;
+        IronSourceRewardedVideoEvents.onAdShowFailedEvent += RewardedOnAdShowFailedEvent;
+        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
 
-    // Interstitial Ad Logic
-    [Header("Interstitial Ad Logic")]
-    [SerializeField] private bool showAdOnStartOfGame = false;
-    [SerializeField] private int lowerHuggyMergeCount = 6, upperHuggyMergeCount = 8;
-
-    private int adCountOnHuggyMerge;
+        // Interstitial Ad
+        IronSourceInterstitialEvents.onAdLoadFailedEvent += InterstitialOnAdLoadFailed;
+        IronSourceInterstitialEvents.onAdShowFailedEvent += InterstitialOnAdShowFailedEvent;
+        IronSourceInterstitialEvents.onAdClosedEvent += InterstitialOnAdClosedEvent;
+    }
 
     private void OnDisable()
     {
+        // Init Event
+        IronSourceEvents.onSdkInitializationCompletedEvent -= SdkInitializationCompletedEvent;
+
+        // Rewarded Ad
+        IronSourceRewardedVideoEvents.onAdLoadFailedEvent -= RewardedOnAdLoadFailed;
+        IronSourceRewardedVideoEvents.onAdShowFailedEvent -= RewardedOnAdShowFailedEvent;
+        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+
+        // Interstitial Ad
+        IronSourceInterstitialEvents.onAdLoadFailedEvent -= InterstitialOnAdLoadFailed;
+        IronSourceInterstitialEvents.onAdShowFailedEvent -= InterstitialOnAdShowFailedEvent;
+        IronSourceInterstitialEvents.onAdClosedEvent -= InterstitialOnAdClosedEvent;
+
         GameManager.instance.SeatManager.MergedHuggy -= OnHuggyMerge;
     }
 
     private void Start()
     {
-        Advertisement.AddListener(this);
-        Advertisement.Initialize(gameId, testMode);
-
-        if (Advertisement.isInitialized)
-        {
-            Advertisement.Load(rewarded_placement);
-            Advertisement.Load(interstitial_placement);
-        }
-
-        if (showAdOnStartOfGame && GameManager.instance.ChooseGames.NewPlayer == 0)
-        {
-            StartCoroutine(TryShowingInterstitialAd());
-        }
-
         // Subscribe to Events here 
 
         GameManager.instance.SeatManager.MergedHuggy += OnHuggyMerge;
     }
+    private void OnApplicationPause(bool pause)
+    {
+        IronSource.Agent.onApplicationPause(pause);
+    }
+
+    private void InitializeAds()
+    {
+        // Validate Integration
+        IronSource.Agent.validateIntegration();
+
+        // SDK init
+        IronSource.Agent.init(_appKey);
+    }
+
+    private void SdkInitializationCompletedEvent()
+    {
+        // Rewarded Ad
+        LoadRewardedVideo();
+
+        // Interstitial Ad
+        LoadInterstitialAd();
+    }
 
     // Interstitial Ad Logic
-    IEnumerator TryShowingInterstitialAd()
-    {
-        while (true)
-        {
-            if (Advertisement.IsReady(interstitial_placement))
-            {
-                ShowInterstitialAd();
-                break;
-            }
-
-            yield return null;
-        }
-    }
 
     private void OnHuggyMerge(int huggyLevel)
     {
@@ -83,65 +103,73 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
         }
     }
 
-    // Ad Logic
+    // Ad Methods
+
+    private void LoadRewardedVideo()
+    {
+        IronSource.Agent.loadRewardedVideo();
+    }
+
+    private void LoadInterstitialAd()
+    {
+        IronSource.Agent.loadInterstitial();
+    }
+
     public void ShowInterstitialAd()
     {
-        if (showAds && Advertisement.IsReady(interstitial_placement))
+        if (IronSource.Agent.isInterstitialReady())
         {
-            //Debug.Log("Playing Interstitial Ad");
-
-            Advertisement.Show(interstitial_placement);
+            IronSource.Agent.showInterstitial();
         }
         else
         {
-            //Debug.Log("Loading Interstitial Ad");
-
-            Advertisement.Load(interstitial_placement);
+            LoadInterstitialAd();
         }
     }
 
     public void ShowRewardedVideo()
     {
-        if (showAds && Advertisement.IsReady(rewarded_placement))
+        if (IronSource.Agent.isRewardedVideoAvailable())
         {
-            //Debug.Log("Playing Rewarded Video");
-
-            Advertisement.Show(rewarded_placement);
+            IronSource.Agent.showRewardedVideo();
         }
         else
         {
-            //Debug.Log("Loading Rewarded Ad");
-
-            Advertisement.Load(rewarded_placement);
+            LoadRewardedVideo();
         }
     }
 
-    public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
+    void RewardedOnAdLoadFailed(IronSourceError ironSourceError)
     {
-        //Debug.Log(placementId);
-
-        if (showResult == ShowResult.Finished)
-        {
-            // Invoke Watched Video Event
-            WatchedVideo?.Invoke();
-        }
-        else if (showResult == ShowResult.Skipped)
-        {
-            
-        }
-
-        Advertisement.Load(rewarded_placement);
+        LoadRewardedVideo();
     }
 
-    public void OnUnityAdsReady(string placementId)
+    void RewardedOnAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo adInfo)
     {
+        LoadRewardedVideo();
     }
 
-    public void OnUnityAdsDidError(string message)
+    void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
     {
+        LoadRewardedVideo();
+
+        WatchedVideo?.Invoke();
     }
 
-    public void OnUnityAdsDidStart(string placementId)
+    // Interstitial Ad Callback
+
+    void InterstitialOnAdLoadFailed(IronSourceError ironSourceError)
     {
+        LoadInterstitialAd();
+    }
+
+    void InterstitialOnAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo adInfo)
+    {
+        LoadInterstitialAd();
+    }
+
+    void InterstitialOnAdClosedEvent(IronSourceAdInfo adInfo)
+    {
+        LoadInterstitialAd();
     }
 }

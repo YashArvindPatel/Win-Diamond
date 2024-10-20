@@ -12,12 +12,8 @@ public class PlayerData
     public int[] achievementProgress;
     public int[] achievementTier;
 
-    // Reward Manager Data
-    public int[][] skinPieceCount;
-
     // Choose Game Data
     public int newPlayer;
-    public int[] selectedGames;
 
     // Money Manager Data
     public float coins;
@@ -53,14 +49,8 @@ public class PlayerData
         achievementProgress = manager.StatsManager.AchievementProgress;
         achievementTier = manager.StatsManager.AchievementTier;
 
-        // Reward Manager
-        skinPieceCount = new int[3][];
-        skinPieceCount = manager.RewardManager.SkinPieceCount;
-
         // Choose Games
         newPlayer = manager.ChooseGames.NewPlayer;
-        selectedGames = new int[manager.ChooseGames.SelectedGames.Count]; 
-        selectedGames = manager.ChooseGames.SelectedGames.ToArray();
 
         // Money Manager
         coins = manager.MoneyManager.Coins;

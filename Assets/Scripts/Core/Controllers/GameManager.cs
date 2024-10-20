@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 
     public MagnetEffect MagnetEffect { get; private set; }
     public StatsManager StatsManager { get; private set; }
-    public RewardManager RewardManager { get; private set; }
     public ChooseGames ChooseGames { get; private set; }
     public TutorialManager TutorialManager { get; private set; }
     public MoneyManager MoneyManager { get; private set; }
@@ -33,7 +32,6 @@ public class GameManager : MonoBehaviour
 
             MagnetEffect = GetComponent<MagnetEffect>();
             StatsManager = GetComponent<StatsManager>();
-            RewardManager = GetComponent<RewardManager>();
             ChooseGames = GetComponent<ChooseGames>();
             TutorialManager = GetComponent<TutorialManager>();
             MoneyManager = GetComponent<MoneyManager>();
@@ -59,11 +57,8 @@ public class GameManager : MonoBehaviour
                 achievementCompleted: playerData.achievementCompleted, achievementProgress: playerData.achievementProgress,
                 achievementTier: playerData.achievementTier);
 
-        if (RewardManager != null)
-            RewardManager.LoadData(skinPieceCount: playerData.skinPieceCount);
-
         if (ChooseGames != null)
-            ChooseGames.LoadData(newPlayer: playerData.newPlayer, selectedGames: playerData.selectedGames);
+            ChooseGames.LoadData(newPlayer: playerData.newPlayer);
 
         if (MoneyManager != null)
             MoneyManager.LoadData(coins: playerData.coins, diamonds: playerData.diamonds,

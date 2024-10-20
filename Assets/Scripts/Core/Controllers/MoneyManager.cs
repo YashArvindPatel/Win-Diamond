@@ -10,9 +10,6 @@ public class MoneyManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI starCount;
     [SerializeField] private TextMeshProUGUI starsPerSec;
 
-    [SerializeField] private TextMeshProUGUI rewardCoinCount;
-    [SerializeField] private TextMeshProUGUI rewardDiamondCount;
-
     public float Coins { get; private set; } = 0;
     public float Diamonds { get; private set; } = 0;
     public float Stars { get; private set; } = 10000;
@@ -124,12 +121,6 @@ public class MoneyManager : MonoBehaviour
         StarsPerSec += amount;
 
         starsPerSec.text = Utility.ConvertToKMB(StarsPerSec) + "/s";
-    }
-
-    internal void RefreshRewardCoinsAndDiamonds()
-    {
-        rewardCoinCount.text = coinCount.text;
-        rewardDiamondCount.text = diamondCount.text;
     }
 
     internal void RewardPlayerOnMerge(int huggyLevel, Vector3 spawnPos)

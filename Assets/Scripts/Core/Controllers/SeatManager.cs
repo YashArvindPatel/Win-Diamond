@@ -71,13 +71,6 @@ public class SeatManager : MonoBehaviour
 
     public Action OpenedGift;
 
-    // Add Puzzle Piece 
-    [Header("Add Puzzle Piece Parameters")]
-    [SerializeField] private GameObject puzzlePiecePrefab;
-    [SerializeField] private int lowerSpawnChance = 2, upperSpawnChance = 5;
-
-    private int mergeCount;
-
     // Merge Common Huggies
     private int index1, index2, lvl;
 
@@ -186,10 +179,6 @@ public class SeatManager : MonoBehaviour
                 if (huggyLevel == 99)
                 {
                     AddGift(parent: bushGO.transform);
-                }
-                else if (huggyLevel == 100)
-                {
-                    AddPuzzlePiece(parent: bushGO.transform);
                 }
                 else if (huggyLevel != 0)
                 {
@@ -414,14 +403,14 @@ public class SeatManager : MonoBehaviour
 
         if (second.childCount > 1)
             second.GetChild(0).SetParent(first, false);
-    
+
         UpdateGrid(
-            (int)((first.localPosition.y - startPos.y) / spacing.y), 
+            (int)((first.localPosition.y - startPos.y) / spacing.y),
             (int)((first.localPosition.x - startPos.x) / spacing.x),
             secondLvl);
 
         UpdateGrid(
-            (int)((second.localPosition.y - startPos.y) / spacing.y), 
+            (int)((second.localPosition.y - startPos.y) / spacing.y),
             (int)((second.localPosition.x - startPos.x) / spacing.x),
             firstLvl);
     }
@@ -444,8 +433,8 @@ public class SeatManager : MonoBehaviour
         firstChild.GetChild(0).gameObject.SetActive(false);
         secondChild.GetChild(0).gameObject.SetActive(false);
 
-        firstChild = firstChild.GetChild(3);
-        secondChild = secondChild.GetChild(3);
+        firstChild = firstChild.GetChild(4);
+        secondChild = secondChild.GetChild(4);
 
         firstChild.localPosition = secondChild.localPosition;
 
@@ -477,22 +466,11 @@ public class SeatManager : MonoBehaviour
 
                 // Raise Merged Huggy Event
                 MergedHuggy?.Invoke(nextLvl);
-
-                mergeCount++;
-
-                if (mergeCount >= upperSpawnChance || (mergeCount >= lowerSpawnChance && UnityEngine.Random.Range(0, 2) == 0))
-                {
-                    AddPuzzlePieceInSeat(first);
-
-                    mergeCount = 0;
-                }
-                else
-                {
-                    UpdateGrid(
-                        (int)((first.localPosition.y - startPos.y) / spacing.y),
-                        (int)((first.localPosition.x - startPos.x) / spacing.x),
-                        0);
-                }
+      
+                UpdateGrid(
+                    (int)((first.localPosition.y - startPos.y) / spacing.y),
+                    (int)((first.localPosition.x - startPos.x) / spacing.x),
+                    0);          
 
                 // Check if MaxHuggyLevel increased
                 if (nextLvl > MaxHuggyLevelUnlocked)
@@ -505,9 +483,9 @@ public class SeatManager : MonoBehaviour
             catch
             {
                 //Debug.Log("Error while merging");
-            }         
-        });     
-    }  
+            }
+        });
+    }
 
     private GameObject AddSeat(int x, int y)
     {
@@ -555,9 +533,9 @@ public class SeatManager : MonoBehaviour
         {
             openGiftCount = 0;
 
-            huggyBefore.sprite = huggySprites[MaxHuggyLevelUnlocked - 3];           
+            huggyBefore.sprite = huggySprites[MaxHuggyLevelUnlocked - 3];
             huggyAfter.sprite = huggySprites[MaxHuggyLevelUnlocked - 1];
-            
+
             huggyBeforeText.text = $"Lv.{MaxHuggyLevelUnlocked - 2}";
             huggyAfterText.text = $"Lv.{MaxHuggyLevelUnlocked}";
 
@@ -624,17 +602,6 @@ public class SeatManager : MonoBehaviour
         CashInGift(true);
     }
 
-    internal void AddPuzzlePieceInSeat(Transform parent)
-    {
-        AddPuzzlePiece(parent: parent);
-
-        // 100 for Puzzle Piece
-        UpdateGrid(
-            (int)((parent.localPosition.y - startPos.y) / spacing.y),
-            (int)((parent.localPosition.x - startPos.x) / spacing.x),
-            100);
-    }
-
     internal bool FindHuggy(ref int i, ref int j, int level = 0)
     {
         for (int a = 0; a < currentRows; a++)
@@ -642,14 +609,14 @@ public class SeatManager : MonoBehaviour
             for (int b = 0; b < rows; b++)
             {
                 if (a == currentRows - 1 && b >= limit) return false;
-                
+
                 if (this.Grid[a, b] == level)
                 {
                     i = a;
                     j = b;
 
                     return true;
-                }              
+                }
             }
         }
 
@@ -686,7 +653,7 @@ public class SeatManager : MonoBehaviour
                 huggyHandSR.color = whiteColor;
                 huggyHand.transform.position = holderT.GetChild(index1).position;
 
-                huggyHand.LeanMove(holderT.GetChild(index2).position, .5f).setOnComplete(() => 
+                huggyHand.LeanMove(holderT.GetChild(index2).position, .5f).setOnComplete(() =>
                 LeanTween.value(1f, 0f, .5f).setDelay(.5f).setOnUpdate(val =>
                 {
                     whiteColor.a = val;
@@ -709,14 +676,14 @@ public class SeatManager : MonoBehaviour
         huggyHand.LeanCancel();
         huggyHand.SetActive(false);
         handsEngaged = false;
-     
+
         currentHandTimer = 0;
     }
 
     // Merge Common Huggies 
 
     internal void MergeCommonHuggies()
-    {     
+    {
         (index1, index2, lvl) = FindCommonHuggies();
 
         if (index1 == -1 || index2 == -1 || lvl == -1) return;
@@ -726,7 +693,7 @@ public class SeatManager : MonoBehaviour
             lvl);
     }
 
-    private (int,int,int) FindCommonHuggies()
+    private (int, int, int) FindCommonHuggies()
     {
         if (seatFilled < 2) return (-1, -1, -1);
 
@@ -740,7 +707,7 @@ public class SeatManager : MonoBehaviour
                 if (i == currentRows - 1 && j >= limit) break;
 
                 unsorted.Add(count, this.Grid[i, j]);
-                count++;               
+                count++;
             }
         }
 
@@ -748,11 +715,11 @@ public class SeatManager : MonoBehaviour
         KeyValuePair<int, int> firstPair = new KeyValuePair<int, int>(-1, -1);
 
         foreach (var secondPair in sorted)
-        {   
+        {
             if (secondPair.Value != 0 && secondPair.Value != 99 && secondPair.Value != 100 && secondPair.Value == firstPair.Value)
             {
                 //Debug.Log($"First: Lvl: {firstPair.Value} Index: {firstPair.Key} Second: Lvl: {secondPair.Value} Index: {secondPair.Key}");
-              
+
                 return (firstPair.Key, secondPair.Key, firstPair.Value);
             }
 
@@ -761,7 +728,7 @@ public class SeatManager : MonoBehaviour
 
         return (-1, -1, -1);
     }
-    
+
     // Add Huggy, define the way huggy is spawned into the game: 0 means nothing, one means bounce in, two is travel to spot
 
     private void AddHuggy(int huggyLevel, Transform parent, int spawnIntro = 0, Vector3 spawnPos = default)
@@ -798,19 +765,6 @@ public class SeatManager : MonoBehaviour
     private void AddGift(Transform parent)
     {
         GameObject giftGO = Instantiate(giftPrefab, parent) as GameObject;
-
-        seatFilled += 1;
-
-        // Check if Seats are Full, if so then set FULL to true
-        if (seatFilled >= SeatCount)
-        {
-            FULL = true;
-        }
-    }
-
-    private void AddPuzzlePiece(Transform parent)
-    {
-        GameObject puzzlePieceGO = Instantiate(puzzlePiecePrefab, parent) as GameObject;
 
         seatFilled += 1;
 

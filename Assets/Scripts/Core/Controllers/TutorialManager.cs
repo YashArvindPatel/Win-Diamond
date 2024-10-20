@@ -73,7 +73,7 @@ public class TutorialManager : MonoBehaviour
             Utility.CloseGO(focusAreas[currentFocusArea]);
         currentFocusArea += 1;
 
-        GameManager.instance.SeatManager.helperHandEnabled = currentFocusArea == 5 ? true : false;
+        GameManager.instance.SeatManager.helperHandEnabled = currentFocusArea == 5;
 
         if (currentFocusArea >= focusAreas.Length)
         {
